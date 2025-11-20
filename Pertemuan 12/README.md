@@ -47,7 +47,7 @@
   ```
 
   Analisis :
-  Kode utils_facenet.py ini berfungsi untuk melakukan proses deteksi wajah, alignment (penyelarasan), dan ekstraksi embedding wajah menggunakan model FaceNet dari pustaka facenet_pytorch. Modul ini memuat pipeline lengkap mulai dari membaca gambar dengan OpenCV, mengonversinya ke format PIL, mendeteksi wajah menggunakan MTCNN, hingga menghasilkan vektor embedding 512-dimensi melalui model InceptionResnetV1. Fungsi embed_from_path() memungkinkan proses embedding dilakukan langsung dari path file gambar, sementara fungsi cosine_similarity() digunakan untuk menghitung tingkat kemiripan antara dua embedding wajah. Secara keseluruhan, kode ini menyediakan utilitas inti untuk sistem face recognition berbasis FaceNet dengan struktur yang rapi, GPU-ready, dan mengembalikan hasil embedding yang dapat digunakan untuk perbandingan wajah.
+  Kode utils_facenet.py ini berfungsi untuk melakukan proses deteksi wajah, alignment (penyelarasan), dan ekstraksi embedding wajah menggunakan model FaceNet dari pustaka facenet_pytorch. Modul ini memuat pipeline lengkap mulai dari membaca gambar dengan OpenCV, mengonversinya ke format PIL, mendeteksi wajah menggunakan MTCNN, hingga menghasilkan vektor embedding 512-dimensi melalui model InceptionResnetV1. Fungsi embed_from_path() memungkinkan proses embedding dilakukan langsung dari path file gambar, sementara fungsi cosine_similarity() digunakan untuk menghitung tingkat kemiripan antara dua embedding wajah. 
 
 2. verify_pair.py
    Kode Program:
@@ -175,7 +175,7 @@
   ```
 
   Analisis :
-  Kode predict_one.py digunakan untuk melakukan prediksi identitas wajah pada satu gambar menggunakan model SVM yang telah dilatih sebelumnya. Program memuat model facenet_svm.joblib, lalu fungsi predict_image() mengambil embedding wajah dari gambar menggunakan embed_from_path(). Jika wajah tidak terdeteksi, fungsi langsung mengembalikan label "NO_FACE". Jika embedding berhasil dibuat, model menghitung probabilitas untuk setiap kelas, memilih kelas dengan nilai terbesar sebagai prediksi, dan mengambil confidence-nya. Script ini juga menyediakan mekanisme penolakan otomatis: jika confidence berada di bawah threshold tertentu (misalnya 0.55), gambar diberi label "UNKNOWN" untuk mencegah prediksi salah. Pada bagian utama program, satu gambar diuji dan hasil prediksi beserta tingkat kepercayaannya ditampilkan. Dengan demikian, kode ini merupakan modul inferensi sederhana untuk sistem pengenalan wajah berbasis FaceNet + SVM.
+  Kode predict_one.py digunakan untuk melakukan prediksi identitas wajah pada satu gambar menggunakan model SVM yang telah dilatih sebelumnya. Program memuat model facenet_svm.joblib, lalu fungsi predict_image() mengambil embedding wajah dari gambar menggunakan embed_from_path(). Jika wajah tidak terdeteksi, fungsi langsung mengembalikan label "NO_FACE". Jika embedding berhasil dibuat, model menghitung probabilitas untuk setiap kelas, memilih kelas dengan nilai terbesar sebagai prediksi, dan mengambil confidence-nya. Script ini juga menyediakan mekanisme penolakan otomatis: jika confidence berada di bawah threshold tertentu (misalnya 0.55), gambar diberi label "UNKNOWN" untuk mencegah prediksi salah. Pada bagian utama program, satu gambar diuji dan hasil prediksi beserta tingkat kepercayaannya ditampilkan. 
 
 6. eval_folder.py
    Kode Program :
@@ -245,7 +245,7 @@
   ```
 
   Analisis :
-  Kode train_knn.py digunakan untuk melatih model pengenalan wajah berbasis algoritma KNN menggunakan embedding FaceNet yang telah dibuat sebelumnya. Script ini memuat data embedding (X_train.npy) dan label identitas (y_train.npy), kemudian membangun pipeline yang terdiri dari StandardScaler untuk menormalkan fitur dan KNeighborsClassifier dengan 3 tetangga terdekat menggunakan jarak Euclidean. Setelah model dilatih dengan data tersebut, model disimpan ke file facenet_knn.joblib menggunakan joblib.dump(). Model KNN ini dapat menjadi alternatif SVM karena lebih sederhana dan cepat untuk pelatihan, serta cocok jika jumlah data per kelas tidak terlalu besar. Kode ini merupakan langkah yang efisien untuk membuat model face recognition berbasis KNN.
+  Kode train_knn.py digunakan untuk melatih model pengenalan wajah berbasis algoritma KNN menggunakan embedding FaceNet yang telah dibuat sebelumnya. Script ini memuat data embedding (X_train.npy) dan label identitas (y_train.npy), kemudian membangun pipeline yang terdiri dari StandardScaler untuk menormalkan fitur dan KNeighborsClassifier dengan 3 tetangga terdekat menggunakan jarak Euclidean. Setelah model dilatih dengan data tersebut, model disimpan ke file facenet_knn.joblib menggunakan joblib.dump(). Model KNN ini dapat menjadi alternatif SVM karena lebih sederhana dan cepat untuk pelatihan, serta cocok jika jumlah data per kelas tidak terlalu besar.
 
 8. verify_cli.py
    Kode Program :
@@ -276,4 +276,3 @@
     
   Analisis :
   Kode verify_cli.py merupakan tool verifikasi wajah berbasis command-line yang memungkinkan pengguna membandingkan dua gambar melalui terminal. Script ini menggunakan argparse untuk menerima dua path gambar dan opsi threshold kemiripan dari pengguna. Setelah dijalankan, program mengekstraksi embedding wajah dari kedua gambar menggunakan embed_from_path(), lalu menghitung tingkat kemiripan menggunakan cosine_similarity(). Jika salah satu gambar tidak terdeteksi wajahnya, program menampilkan pesan error; jika berhasil, nilai similarity dicetak bersama hasil apakah kedua wajah dianggap “MATCH” atau “NO MATCH” berdasarkan threshold yang diberikan. Dengan demikian, kode ini menyediakan cara cepat dan praktis untuk menguji kemiripan dua wajah langsung dari CLI tanpa perlu membuka interface tambahan.
-
